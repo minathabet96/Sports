@@ -6,40 +6,49 @@
 //
 
 import UIKit
-
+import Kingfisher
 class LeaguesTableViewController: UITableViewController {
-
+    var viewModel: LeaguesViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        let nib = UINib(nibName: "LeaguesTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "LeaguesTableViewCell")
+        viewModel.leaguesViewBinder = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        viewModel.fetchData()
     }
 
-    // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return viewModel.getLeagues().count
     }
-
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguesTableViewCell", for: indexPath) as! LeaguesTableViewCell
+        if !viewModel.getLeagues().isEmpty {
+            switch viewModel.sportParam {
+            case "tennis":
+                cell.cellImage.kf.setImage(with: URL(string: "https://static.vecteezy.com/system/resources/previews/000/488/409/original/tennis-cup-winner-gold-stock-vector-illustration.jpg"))
+            case "basketball":
+                cell.cellImage.kf.setImage(with: URL(string: "https://www.fiba.basketball/api/img/graphic/5f1a2c53-ff81-4b23-9c4f-bd85d75c6d98/1000/1000?mt=.jpg"))
+            case "cricket":
+                cell.cellImage.kf.setImage(with: URL(string: "https://5.imimg.com/data5/SELLER/Default/2021/7/BM/TC/ED/5388092/4-500x500.JPG"))
+            default:
+                cell.cellImage.kf.setImage(with: URL(string: viewModel.getLeagues()[indexPath.row].leagueLogo ?? "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/5ZD3FGEX2JJU7FZSN2FDIIXFQ4.jpg"))
+            }
+            
+            cell.cellLabel.text = viewModel.getLeagues()[indexPath.row].leagueName
+        }
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
