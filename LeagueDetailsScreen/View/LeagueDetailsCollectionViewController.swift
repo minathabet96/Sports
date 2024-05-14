@@ -17,8 +17,6 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
-        print(leagueViewModle?.getLeagueId())
-        print(leagueViewModle?.sportParam)
         viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle?.getLeagueId() ?? 0, sportType: "football")
         viewModel.leaguesViewBinder = { [weak self] in
             DispatchQueue.main.async {
