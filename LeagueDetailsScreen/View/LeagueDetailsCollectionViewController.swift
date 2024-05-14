@@ -9,19 +9,20 @@ import UIKit
 
 
 class LeagueDetailsCollectionViewController: UICollectionViewController {
+    
+    var viewModel:LeagueDetailsViewModel!
+    
     let sectoinTitles:[String] = ["UpComing Events","Latest Results","Teams"]
-    let dummyData: [LeagueDetailsModel] = [
-        LeagueDetailsModel(eventDate: "2024-05-15", evnetTime: "15:00", homeTeamName: "Team A", homeTeamKey: 1, homeTeamLogo: "team_a_logo", awayTeamName: "Team B", awayTeamKey: 2, awayTeamLogo: "team_b_logo", leagueName: "Premier League"),
-        LeagueDetailsModel(eventDate: "2024-05-16", evnetTime: "16:30", homeTeamName: "Team C", homeTeamKey: 3, homeTeamLogo: "team_c_logo", awayTeamName: "Team D", awayTeamKey: 4, awayTeamLogo: "team_d_logo", leagueName: "La Liga"),
-        LeagueDetailsModel(eventDate: "2024-05-17", evnetTime: "18:00", homeTeamName: "Team E", homeTeamKey: 5, homeTeamLogo: "team_e_logo", awayTeamName: "Team F", awayTeamKey: 6, awayTeamLogo: "team_f_logo", leagueName: "Serie A"),
-        LeagueDetailsModel(eventDate: "2024-05-17", evnetTime: "18:00", homeTeamName: "Team E", homeTeamKey: 5, homeTeamLogo: "team_e_logo", awayTeamName: "Team F", awayTeamKey: 6, awayTeamLogo: "team_f_logo", leagueName: "Serie A"),
-        LeagueDetailsModel(eventDate: "2024-05-17", evnetTime: "18:00", homeTeamName: "Team E", homeTeamKey: 5, homeTeamLogo: "team_e_logo", awayTeamName: "Team F", awayTeamKey: 6, awayTeamLogo: "team_f_logo", leagueName: "Serie A")
-        
-    ]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
+        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: 4)
+        viewModel.leaguesViewBinder = { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+        viewModel.fetchData()
     }
     private func createLayouts()->UICollectionViewCompositionalLayout{
        return  UICollectionViewCompositionalLayout{ [weak self] sectionIndex,environment in
@@ -99,7 +100,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 4
+        return viewModel.getLeagueDetails().count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -107,7 +108,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         switch indexPath.section{
         case 0:
             let upComingEventCell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingEventsCell", for: indexPath) as! UpComingEventsCollectionViewCell
-            upComingEventCell.setup(upcomingEvent: dummyData[indexPath.row])
+            upComingEventCell.setup(upcomingEvent: viewModel.getLeagueDetails()[indexPath.row])
             return upComingEventCell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventsCell", for: indexPath) as! LatestEventsCollectionViewCell

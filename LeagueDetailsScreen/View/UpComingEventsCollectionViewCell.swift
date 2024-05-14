@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Kingfisher
 class UpComingEventsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var leagueName: UILabel!
@@ -32,11 +32,17 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
     
     func setup(upcomingEvent:LeagueDetailsModel){
         leagueName.text = upcomingEvent.leagueName
-            matchDate.text = upcomingEvent.eventDate
-            matchTime.text = upcomingEvent.evnetTime
-            homeTeamName.text = upcomingEvent.homeTeamName
-            awayTeamName.text = upcomingEvent.awayTeamName
-        
+        matchDate.text = upcomingEvent.eventDate
+        matchTime.text = upcomingEvent.evnetTime
+        homeTeamName.text = upcomingEvent.homeTeamName
+        awayTeamName.text = upcomingEvent.awayTeamName
+        if let homeLogoURL = URL(string: upcomingEvent.homeTeamLogo) {
+                    homeTeamLogo.kf.setImage(with: homeLogoURL)
+                }
+                
+        if let awayLogoURL = URL(string: upcomingEvent.awayTeamLogo) {
+                    awayTeamLogo.kf.setImage(with: awayLogoURL)
+                }
         }
     
     

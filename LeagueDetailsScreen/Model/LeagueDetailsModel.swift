@@ -6,25 +6,31 @@
 //
 
 import Foundation
-class LeagueDetailsModel{
-    let eventDate:String
-    let evnetTime:String
-    let homeTeamName:String
-    let homeTeamKey:Int
-    let homeTeamLogo:String
-    let awayTeamName:String
-    let awayTeamKey:Int
-    let awayTeamLogo:String
-    let leagueName:String
-    init(eventDate: String, evnetTime: String, homeTeamName: String, homeTeamKey: Int, homeTeamLogo: String, awayTeamName: String, awayTeamKey: Int, awayTeamLogo: String, leagueName: String) {
-        self.eventDate = eventDate
-        self.evnetTime = evnetTime
-        self.homeTeamName = homeTeamName
-        self.homeTeamKey = homeTeamKey
-        self.homeTeamLogo = homeTeamLogo
-        self.awayTeamName = awayTeamName
-        self.awayTeamKey = awayTeamKey
-        self.awayTeamLogo = awayTeamLogo
-        self.leagueName = leagueName
+
+struct LeagueDetailsModel : Codable{
+    var eventDate:String
+    var evnetTime:String
+    var homeTeamName:String
+    var homeTeamKey:Int
+    var homeTeamLogo:String
+    var awayTeamName:String
+    var awayTeamKey:Int
+    var awayTeamLogo:String
+    var leagueName:String
+    
+    enum CodingKeys: String,CodingKey {
+        case eventDate = "event_date"
+        case evnetTime = "event_time"
+        case homeTeamName = "event_home_team"
+        case homeTeamKey = "home_team_key"
+        case homeTeamLogo = "home_team_logo"
+        case awayTeamName = "event_away_team"
+        case awayTeamKey = "away_team_key"
+        case awayTeamLogo = "away_team_logo"
+        case leagueName = "league_name"
     }
+    
+}
+struct LeageDetailsApiResult:Codable{
+    var result:[LeagueDetailsModel]
 }
