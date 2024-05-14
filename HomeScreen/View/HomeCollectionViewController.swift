@@ -16,6 +16,11 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
         let nib = UINib(nibName: "HomeCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         
+        let layout = UICollectionViewCompositionalLayout { _,_ in
+                return self.drawFirstLayout()
+        }
+        //collectionView.setCollectionViewLayout(layout, animated: true)
+        
     }
 
     
@@ -37,7 +42,7 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as! HomeCollectionViewCell
         cell.cellLabel.text = viewModel.getSports()[indexPath.row].title
-        cell.cellImage.image = UIImage(named: viewModel.getSports()[indexPath.row].image)
+        cell.cellImage.image = UIImage(named: "big") //viewModel.getSports()[indexPath.row].image)
         cell.layer.cornerRadius = 24
     
         return cell
@@ -54,6 +59,21 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
             leaguesVC.viewModel = LeaguesViewModel(network: DataFetcher.shared, sportParam: viewModel.getSports()[indexPath.row].title.lowercased())
             self.navigationController?.pushViewController(leaguesVC, animated: true)
         }
+    }
+    func drawFirstLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.3))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = NSDirectionalEdgeInsets(top: 100, leading: 16, bottom: 16, trailing: 0)
+        section.visibleItemsInvalidationHandler = { (items, offset, environment) in
+        }
+        return section
     }
 
     /*
