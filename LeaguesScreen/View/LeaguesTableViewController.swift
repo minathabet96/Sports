@@ -20,7 +20,14 @@ class LeaguesTableViewController: UITableViewController {
         }
         viewModel.fetchData()
     }
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.setLeagueId(id: viewModel.getLeagues()[indexPath.row].leagueID)
+        let leageDetails:LeagueDetailsCollectionViewController =
+        self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
+        leageDetails.leagueViewModle=viewModel
+        
+        self.navigationController?.pushViewController(leageDetails, animated: true)
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

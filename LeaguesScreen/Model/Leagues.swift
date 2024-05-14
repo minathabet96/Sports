@@ -14,13 +14,14 @@ struct Leagues: Codable {
 struct Result: Codable {
     let leagueName, countryName: String?
     let leagueLogo: String?
-
+    let leagueID:Int
     enum CodingKeys: String, CodingKey {
         //case leagueKey = "league_key"
         case leagueName = "league_name"
         //case countryKey = "country_key"
         case countryName = "country_name"
         case leagueLogo = "league_logo"
+        case leagueID = "league_key"
         //case countryLogo = "country_logo"
     }
 }
