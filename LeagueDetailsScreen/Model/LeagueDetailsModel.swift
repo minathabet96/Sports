@@ -17,7 +17,8 @@ struct LeagueDetailsModel : Codable{
     var awayTeamKey:Int
     var awayTeamLogo:String
     var leagueName:String
-    
+    var leagueRound:String
+    var eventFinalResult:String
     enum CodingKeys: String,CodingKey {
         case eventDate = "event_date"
         case evnetTime = "event_time"
@@ -28,6 +29,8 @@ struct LeagueDetailsModel : Codable{
         case awayTeamKey = "away_team_key"
         case awayTeamLogo = "away_team_logo"
         case leagueName = "league_name"
+        case leagueRound="league_round"
+        case eventFinalResult="event_final_result"
     }
     
 }
