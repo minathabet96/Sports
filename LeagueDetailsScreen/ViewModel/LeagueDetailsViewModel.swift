@@ -40,17 +40,25 @@ class LeagueDetailsViewModel{
         var oneYearAgoComponent = DateComponents()
         oneYearAgoComponent.year = -1
         let oneYearAgoDate = Calendar.current.date(byAdding: oneYearAgoComponent, to: currentDate)!
+        var oneDayAgoComponent = DateComponents()
+        oneDayAgoComponent.day = -1
+        let oneDayAgoDate = Calendar.current.date(byAdding: oneDayAgoComponent, to: currentDate)!
+        
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        
         let fromDate = dateFormatter.string(from: oneYearAgoDate)
-        let toDate = dateFormatter.string(from: currentDate)
+        let toDate = dateFormatter.string(from: oneDayAgoDate)
+        
         print(fromDate)
         print(toDate)
+        
         let urlString = "https://apiv2.allsportsapi.com/\(sportType)/?met=Fixtures&leagueId=\(leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=00df14beddee4ef5d0efee2255fde53ef246055b52806f3c699c4d5af73704e6"
         
         return urlString
     }
+
 
     func fetchData() {
         network.fetchData(urlString:  upcomingEvnetsURl()) {
