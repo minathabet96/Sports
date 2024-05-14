@@ -44,11 +44,11 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = false
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
 
-        if let homeLogoURL = URL(string: upcomingEvent.homeTeamLogo) {
+        if let homeLogoURL = URL(string: upcomingEvent.homeTeamLogo ?? "") {
                     homeTeamLogo.kf.setImage(with: homeLogoURL)
                 }
                 
-        if let awayLogoURL = URL(string: upcomingEvent.awayTeamLogo) {
+        if let awayLogoURL = URL(string: upcomingEvent.awayTeamLogo ?? "") {
                     awayTeamLogo.kf.setImage(with: awayLogoURL)
                 }
         }

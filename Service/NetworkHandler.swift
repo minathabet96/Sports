@@ -20,7 +20,6 @@ class DataFetcher: Fetchable {
     
     func fetchData(urlString: String, _ onComplete: @escaping (Data) -> Void) {
         let session = URLSession.shared
-            
         let url = URL(string: urlString)!
         let task = session.dataTask(with: url) { data,resp,_ in
             let httpResponse = resp as? HTTPURLResponse

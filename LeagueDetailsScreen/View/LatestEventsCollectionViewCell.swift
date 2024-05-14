@@ -24,11 +24,11 @@ class LatestEventsCollectionViewCell: UICollectionViewCell {
         team1Name.text = latestResult.homeTeamName
         team2Name.text = latestResult.awayTeamName
         matchTime.text = latestResult.eventFinalResult
-        if let team1LogoURL = URL(string: latestResult.homeTeamLogo) {
+        if let team1LogoURL = URL(string: latestResult.homeTeamLogo ?? "") {
                 team1Logo.kf.setImage(with: team1LogoURL)
             }
                
-        if let team2LogoURL = URL(string: latestResult.awayTeamLogo) {
+        if let team2LogoURL = URL(string: latestResult.awayTeamLogo ?? "") {
                 team2Logo.kf.setImage(with: team2LogoURL)
             }
         layer.cornerRadius=10
