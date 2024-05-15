@@ -12,12 +12,12 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     var hideLoadingVar:Int=0
     var viewModel:LeagueDetailsViewModel!
     var loadingView: UIView?
-    var leagueViewModle:LeaguesViewModel?
+    var leagueViewModle:LeaguesViewModel!
     let sectoinTitles:[String] = ["UpComing Events","Latest Results","Teams"]
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
-        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle?.getLeagueId() ?? 0, sportType: leagueViewModle?.sportParam ?? "football")
+        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle.getLeagueId() , sportType: leagueViewModle.sportParam)
         viewModel.upcomingEventsViewBinder = { [weak self] in
             DispatchQueue.main.async {
                 self?.hideLoadingVar += 1
@@ -58,6 +58,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
                
             }
     }
+
     private func supplementaryHeaderItem()->NSCollectionLayoutBoundarySupplementaryItem{
         .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         
@@ -125,7 +126,17 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     */
 
     // MARK: UICollectionViewDataSource
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 2 {
+            print("indexPath.row \(indexPath.row)")
+            viewModel.setSelectedTeamId(teamId:viewModel.getLeagueTeams()[indexPath.row].homeTeamKey ?? 0 )
+            let teamDetails:TeamDetailsTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "teamDetailsTVC") as! TeamDetailsTableViewController
+            teamDetails.leageDetailsViewModel = viewModel
+            self.present(teamDetails, animated: true)
+        }
+    }
+    
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return sectoinTitles.count

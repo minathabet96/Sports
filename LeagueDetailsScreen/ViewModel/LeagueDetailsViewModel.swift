@@ -7,12 +7,13 @@
 
 import Foundation
 class LeagueDetailsViewModel{
-    let network: Fetchable
-    var leagueUpComingEvents: [LeagueDetailsModel] = []
-    var leagueLatestResults: [LeagueDetailsModel] = []
-    var leagueTeams: [LeagueDetailsModel] = []
-    let leagueID: Int
-    let sportType: String
+   private let network: Fetchable
+    private  var leagueUpComingEvents: [LeagueDetailsModel] = []
+    private  var leagueLatestResults: [LeagueDetailsModel] = []
+    private   var leagueTeams: [LeagueDetailsModel] = []
+    private   let leagueID: Int
+    private   let sportType: String
+    private   var selectedTeamId:Int?
     var upcomingEventsViewBinder: () -> () = {}
     var latestResultsViewBinder: () -> () = {}
     init(network: Fetchable, leagueID: Int, sportType: String) {
@@ -101,4 +102,14 @@ class LeagueDetailsViewModel{
     func getLeagueTeams() -> [LeagueDetailsModel] {
         return leagueTeams
     }
+    func setSelectedTeamId(teamId:Int){
+        selectedTeamId=teamId
+    }
+    func getSelectedTeamId()->Int?{
+        return selectedTeamId
+    }
+    func getSportType()->String{
+        return sportType
+    }
+   
 }
