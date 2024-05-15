@@ -15,14 +15,24 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
         collectionView.delegate = self
         let nib = UINib(nibName: "HomeCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "HomeCollectionViewCell")
-        
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.title = "Sports"
+    }
     
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        CGSize(width: collectionView.bounds.width/2 - 20, height: 200)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let collectionViewWidth = collectionView.bounds.width
+        let spacing: CGFloat = 20
+        let itemsPerRow: CGFloat = 2
+        
+        
+        let itemWidth = (collectionViewWidth - spacing * (itemsPerRow + 1)) / itemsPerRow
+        
+        
+        return CGSize(width: itemWidth, height: collectionView.bounds.height)
+    }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -55,6 +65,21 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
             self.navigationController?.pushViewController(leaguesVC, animated: true)
         }
     }
+//    func drawFirstLayout() -> NSCollectionLayoutSection {
+//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        
+//        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.3))
+//        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
+//        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
+//        let section = NSCollectionLayoutSection(group: group)
+//        
+//        section.orthogonalScrollingBehavior = .continuous
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 100, leading: 16, bottom: 16, trailing: 0)
+//        section.visibleItemsInvalidationHandler = { (items, offset, environment) in
+//        }
+//        return section
+//    }
 
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking
