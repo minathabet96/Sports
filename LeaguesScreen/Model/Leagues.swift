@@ -7,8 +7,8 @@
 
 import Foundation
 struct Leagues: Codable {
-    var success: Int
-    var result: [Result]
+    var success: Int?
+    var result: [Result]?
 }
 
 struct Result: Codable {
