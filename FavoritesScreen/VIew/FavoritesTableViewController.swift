@@ -12,17 +12,14 @@ class FavoritesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = FavoritesViewModel()
-        self.tabBarController?.title = "Favorites"
         let nib = UINib(nibName: "LeaguesTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "LeaguesTableViewCell")
-        //tableView.reloadData()
-        
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }
     override func viewWillAppear(_ animated: Bool) {
-        print("number of stored leagues: \(viewModel.getLeagues().count)")
+        self.tabBarController?.title = "Favorites"
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         

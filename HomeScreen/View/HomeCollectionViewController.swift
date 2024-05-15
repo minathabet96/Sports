@@ -11,20 +11,28 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
     var viewModel: HomeViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.title = "Sports"
         viewModel = HomeViewModel()
         collectionView.delegate = self
         let nib = UINib(nibName: "HomeCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "HomeCollectionViewCell")
-        
-        
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.title = "Sports"
+    }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 2000, height: 2000)
+        let collectionViewWidth = collectionView.bounds.width
+        let spacing: CGFloat = 20
+        let itemsPerRow: CGFloat = 2
+        
+        
+        let itemWidth = (collectionViewWidth - spacing * (itemsPerRow + 1)) / itemsPerRow
+        
+        
+        return CGSize(width: itemWidth, height: collectionView.bounds.height)
     }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1

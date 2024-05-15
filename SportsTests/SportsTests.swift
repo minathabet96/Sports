@@ -11,26 +11,21 @@ import XCTest
 final class SportsTests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testFetchData() {
+        let expectation = expectation(description: "waiting for api response")
+        DataFetcher.shared.fetchData(urlString: "https://apiv2.allsportsapi.com/football/?met=Leagues&APIkey=00df14beddee4ef5d0efee2255fde53ef246055b52806f3c699c4d5af73704e6") { data in
+            let result: Leagues = DataDecoder.shared.decode(data: data)
+            XCTAssertNotNil(result)
+            expectation.fulfill()
         }
+        waitForExpectations(timeout: 5)
     }
 
 }
