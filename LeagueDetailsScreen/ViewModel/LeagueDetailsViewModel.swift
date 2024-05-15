@@ -7,13 +7,15 @@
 
 import Foundation
 class LeagueDetailsViewModel{
-    let network: Fetchable
-    var leagueUpComingEvents: [LeagueDetailsModel] = []
-    var leagueLatestResults: [LeagueDetailsModel] = []
-    var leagueTeams: [LeagueDetailsModel] = []
-    let leagueID: Int
-    let sportType: String
-    var leaguesViewBinder: () -> () = {}
+   private let network: Fetchable
+    private  var leagueUpComingEvents: [LeagueDetailsModel] = []
+    private  var leagueLatestResults: [LeagueDetailsModel] = []
+    private   var leagueTeams: [LeagueDetailsModel] = []
+    private   let leagueID: Int
+    private   let sportType: String
+    private   var selectedTeamId:Int?
+    var upcomingEventsViewBinder: () -> () = {}
+    var latestResultsViewBinder: () -> () = {}
     init(network: Fetchable, leagueID: Int, sportType: String) {
            self.network = network
            self.leagueID = leagueID
@@ -31,7 +33,7 @@ class LeagueDetailsViewModel{
         let toDate = dateFormatter.string(from: nextYearDate)
         print(fromDate)
         print(toDate)
-        let urlString = "https://apiv2.allsportsapi.com/\(sportType)/?met=Fixtures&leagueId=\(leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=00df14beddee4ef5d0efee2255fde53ef246055b52806f3c699c4d5af73704e6"
+        let urlString = "\(APIHelper.baseUrl)\(sportType)/?met=Fixtures&leagueId=\(leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=\(APIHelper.apiKey)"
            return urlString
     }
     
@@ -72,9 +74,9 @@ class LeagueDetailsViewModel{
             if(response.result != nil){
                 self?.leagueUpComingEvents = response.result!
                 self?.leagueTeams.append(contentsOf: response.result!)
-                self?.leaguesViewBinder()
+                self?.upcomingEventsViewBinder()
             }else{
-                self?.leaguesViewBinder()
+                self?.upcomingEventsViewBinder()
             }
             
         }
@@ -84,9 +86,9 @@ class LeagueDetailsViewModel{
             if response.result != nil {
                 self?.leagueLatestResults = response.result!
                 self?.leagueTeams.append(contentsOf: response.result!)
-                self?.leaguesViewBinder()
+                self?.upcomingEventsViewBinder()
             }else{
-                self?.leaguesViewBinder()
+                self?.upcomingEventsViewBinder()
             }
         
         }
@@ -100,4 +102,14 @@ class LeagueDetailsViewModel{
     func getLeagueTeams() -> [LeagueDetailsModel] {
         return leagueTeams
     }
+    func setSelectedTeamId(teamId:Int){
+        selectedTeamId=teamId
+    }
+    func getSelectedTeamId()->Int?{
+        return selectedTeamId
+    }
+    func getSportType()->String{
+        return sportType
+    }
+   
 }
