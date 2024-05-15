@@ -9,7 +9,7 @@ import UIKit
 
 
 class LeagueDetailsCollectionViewController: UICollectionViewController {
-    
+    var hideLoadingVar:Int=0
     var viewModel:LeagueDetailsViewModel!
     var loadingView: UIView?
     var leagueViewModle:LeaguesViewModel?
@@ -18,11 +18,25 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
         viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle?.getLeagueId() ?? 0, sportType: leagueViewModle?.sportParam ?? "football")
-        viewModel.leaguesViewBinder = { [weak self] in
+        viewModel.upcomingEventsViewBinder = { [weak self] in
             DispatchQueue.main.async {
-                self?.hideLoading()
+                self?.hideLoadingVar += 1
+                if self?.hideLoadingVar == 2{
+                    self?.hideLoading()
+                }
                 self?.collectionView.reloadData()
             }
+            
+        }
+        viewModel.latestResultsViewBinder={
+            [weak self] in
+                DispatchQueue.main.async {
+                    self?.hideLoadingVar += 1
+                    if self?.hideLoadingVar == 2{
+                        self?.hideLoading()
+                    }
+                    self?.collectionView.reloadData()
+                }
         }
         showLoading()
         viewModel.fetchData()
