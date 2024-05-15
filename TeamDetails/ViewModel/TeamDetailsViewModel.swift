@@ -28,6 +28,7 @@ class TeamDetailsViewModel{
              let response: TeamDetailsApiResult  = DataDecoder.shared.decode(data: data)
              if(response.result != nil){
                  self?.teamDetails=response.result![0]
+                 print(self?.teamDetails.teamPlayers?.first?.playerName)
                  self?.teamDetailsViewBinder()
              }else{
                  self?.teamDetailsViewBinder()

@@ -90,7 +90,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.50), heightDimension: .absolute(150)), subitems: [item])
         group.contentInsets=NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
         let section=NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.orthogonalScrollingBehavior = .continuous
         section.contentInsets=NSDirectionalEdgeInsets.init(top: 0, leading: 14, bottom: 10, trailing: 14)
         section.boundarySupplementaryItems=[supplementaryHeaderItem()]
         return section
@@ -172,7 +172,6 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventsCell", for: indexPath)
         switch indexPath.section{
         case 0:
             if viewModel.getLeagueUpcomingEvents().isEmpty{
@@ -199,7 +198,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
             teamsCell.setup(team: viewModel.getLeagueTeams()[indexPath.row])
             return teamsCell
         default:
-            return cell
+            return UICollectionViewCell.init()
         }
     }
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

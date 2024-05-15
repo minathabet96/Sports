@@ -26,12 +26,15 @@ class PlayerTableViewCell: UITableViewCell {
     func setUP(player:Player){
         playerName.text = player.playerName ?? ""
         playerPosition.text = player.position ?? ""
-        if let imageURLString = player.playerImage,
-        let imageURL = URL(string: imageURLString) {
-                playerImage.kf.setImage(with: imageURL)
-            } else {
-                playerImage.image = UIImage(named: "playerHolder")
-            }
+        if player.playerImage != nil{
+            if let imageURLString = player.playerImage,
+            let imageURL = URL(string: imageURLString) {
+                    playerImage.kf.setImage(with: imageURL)
+                } else {
+                    playerImage.image = UIImage(named: "playerHolder")
+                }
+        }
+        
     }
 
 }

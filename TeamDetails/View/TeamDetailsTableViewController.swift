@@ -56,8 +56,7 @@ class TeamDetailsTableViewController: UITableViewController {
         case 0:
             return 300
         case 1:
-            if ((viewModel.getTeamDetails().teamPlayers?.isEmpty) != nil || (viewModel.getTeamDetails().teamPlayers == nil) ){
-                
+            if  (viewModel.getTeamDetails().teamPlayers == nil){
                 return 200
             }else{
                 return 80
@@ -73,7 +72,7 @@ class TeamDetailsTableViewController: UITableViewController {
         case 0:
             return 1
         case 1:
-             if ((viewModel.getTeamDetails().teamPlayers?.isEmpty) != nil || (viewModel.getTeamDetails().teamPlayers == nil) ) {
+             if (viewModel.getTeamDetails().teamPlayers == nil)  {
                 return 1
              }else{
                  return viewModel.getTeamDetails().teamPlayers?.count ?? 0
@@ -91,14 +90,12 @@ class TeamDetailsTableViewController: UITableViewController {
             imageCell.setup(teamDetails: viewModel.getTeamDetails())
             return imageCell
         case 1:
-            if ((viewModel.getTeamDetails().teamPlayers?.isEmpty) != nil || (viewModel.getTeamDetails().teamPlayers == nil) ) {
+            if (viewModel.getTeamDetails().teamPlayers == nil)  {
+                print("Players are nil or empty")
                 let playerImageHolderCell = tableView.dequeueReusableCell(withIdentifier: "playersImageHolder", for: indexPath)
                 return playerImageHolderCell
             }
-            
-            
         let playerCell = tableView.dequeueReusableCell(withIdentifier: "playerCell", for: indexPath) as! PlayerTableViewCell
-            
             playerCell.setUP(player: (viewModel.getTeamDetails().teamPlayers?[indexPath.row])!)
             return playerCell
         default:

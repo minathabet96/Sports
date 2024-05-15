@@ -28,9 +28,7 @@ class TeamLogoTableViewCell: UITableViewCell {
     }
     func setup(teamDetails:Team){
         teamName.text = teamDetails.teamName ?? "Unknown"
-        if teamDetails.teamLogo == nil{
-            print("Logo is not found")
-        }else{
+        if teamDetails.teamLogo != nil{
             if let logoUrlString = teamDetails.teamLogo,
                let logoUrl = URL(string: logoUrlString) {
                 teamLogo.kf.setImage(with: logoUrl)
