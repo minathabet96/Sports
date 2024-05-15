@@ -61,20 +61,34 @@ class LeagueDetailsViewModel{
 
 
     func fetchData() {
+        
+        print("leagueID")
+        print(leagueID)
+        print(upcomingEvnetsURl())
+        print(latestResultsURL())
         network.fetchData(urlString:  upcomingEvnetsURl()) {
             [weak self] data in
             let response: LeageDetailsApiResult  = DataDecoder.shared.decode(data: data)
-            self?.leagueUpComingEvents = response.result
-            self?.leagueTeams.append(contentsOf: response.result)
-            self?.leaguesViewBinder()
+            if(response.result != nil){
+                self?.leagueUpComingEvents = response.result!
+                self?.leagueTeams.append(contentsOf: response.result!)
+                self?.leaguesViewBinder()
+            }else{
+                self?.leaguesViewBinder()
+            }
+            
         }
         network.fetchData(urlString:  latestResultsURL()) {
             [weak self] data in
             let response: LeageDetailsApiResult  = DataDecoder.shared.decode(data: data)
-            self?.leagueLatestResults = response.result
-            self?.leagueTeams.append(contentsOf: response.result)
-            self?.leaguesViewBinder()
-
+            if response.result != nil {
+                self?.leagueLatestResults = response.result!
+                self?.leagueTeams.append(contentsOf: response.result!)
+                self?.leaguesViewBinder()
+            }else{
+                self?.leaguesViewBinder()
+            }
+        
         }
     }
     func getLeagueUpcomingEvents() -> [LeagueDetailsModel] {

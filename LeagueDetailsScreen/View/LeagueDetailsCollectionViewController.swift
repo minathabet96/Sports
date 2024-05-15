@@ -17,7 +17,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
-        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle?.getLeagueId() ?? 0, sportType: "football")
+        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle?.getLeagueId() ?? 0, sportType: leagueViewModle?.sportParam ?? "football")
         viewModel.leaguesViewBinder = { [weak self] in
             DispatchQueue.main.async {
                 self?.hideLoading()
@@ -122,11 +122,25 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         switch section{
         case 0:
-            return   viewModel.getLeagueUpcomingEvents().count
+            if viewModel.getLeagueUpcomingEvents().isEmpty{
+                return 1
+
+            }else{
+                return   viewModel.getLeagueUpcomingEvents().count
+            }
         case 1:
-            return   viewModel.getLeagueLatestResults().count
+            if viewModel.getLeagueLatestResults().isEmpty{
+                return 1
+            }else{
+                return   viewModel.getLeagueLatestResults().count
+            }
         case 2:
-            return   viewModel.getLeagueTeams().count
+            if viewModel.getLeagueTeams().isEmpty{
+                return 1
+            }
+            else{
+                return   viewModel.getLeagueTeams().count
+            }
         default:
             return    0
         }
@@ -136,14 +150,26 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventsCell", for: indexPath)
         switch indexPath.section{
         case 0:
+            if viewModel.getLeagueUpcomingEvents().isEmpty{
+                let upComingEventCellEmpty = collectionView.dequeueReusableCell(withReuseIdentifier: "cellImageHolder", for: indexPath)
+                return upComingEventCellEmpty
+            }
             let upComingEventCell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingEventsCell", for: indexPath) as! UpComingEventsCollectionViewCell
             upComingEventCell.setup(upcomingEvent: viewModel.getLeagueUpcomingEvents()[indexPath.row])
             return upComingEventCell
         case 1:
+            if viewModel.getLeagueLatestResults().isEmpty{
+                let upComingEventCellEmpty = collectionView.dequeueReusableCell(withReuseIdentifier: "cellImageHolder", for: indexPath)
+                return upComingEventCellEmpty
+            }
             let latestResult = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventsCell", for: indexPath) as! LatestEventsCollectionViewCell
             latestResult.setup(latestResult: viewModel.getLeagueLatestResults()[indexPath.row])
             return latestResult
         case 2:
+            if viewModel.getLeagueTeams().isEmpty{
+                let upComingEventCellEmpty = collectionView.dequeueReusableCell(withReuseIdentifier: "cellImageHolder", for: indexPath)
+                return upComingEventCellEmpty
+            }
             let teamsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! TeamsCollectionViewCell
             teamsCell.setup(team: viewModel.getLeagueTeams()[indexPath.row])
             return teamsCell
