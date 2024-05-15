@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Htj-jL-BhK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Htj-jL-BhK">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,9 +29,7 @@
                             <outlet property="delegate" destination="ngA-OZ-8k4" id="TCy-79-GXX"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" selectedImage="house.fill" id="vJT-zv-yUt">
-                        <color key="badgeColor" red="1" green="0.81757344119999997" blue="0.58397485280000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" selectedImage="house.fill" id="vJT-zv-yUt"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AfL-Ic-eKj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -82,13 +80,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.23628270626068115" green="0.20538932085037231" blue="0.055413298308849335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" systemColor="systemGray2Color"/>
+                        <color key="tintColor" red="0.24314302206039429" green="0.2323509156703949" blue="0.058846935629844666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.24314302206039429" green="0.2323509156703949" blue="0.058846935629844666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" red="0.99215632677078247" green="0.99607867002487183" blue="0.99215704202651978" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="ngA-OZ-8k4" kind="relationship" relationship="viewControllers" id="DX1-g9-ZyY"/>
-                        <segue destination="NF0-r0-vXm" kind="relationship" relationship="viewControllers" id="Ebd-P9-GTn"/>
+                        <segue destination="9jz-ie-HCD" kind="relationship" relationship="viewControllers" id="Qbu-sx-bMJ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBC-27-oL8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -96,20 +94,33 @@
             <point key="canvasLocation" x="515.26717557251902" y="-95.070422535211279"/>
         </scene>
         <!--Favorites-->
-        <scene sceneID="EBF-Sj-Ih4">
+        <scene sceneID="ygc-9G-vWy">
             <objects>
-                <viewController id="NF0-r0-vXm" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Uwb-k4-pc7">
+                <tableViewController id="9jz-ie-HCD" customClass="FavoritesTableViewController" customModule="Sports" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="ixL-di-I5C">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="XA3-yK-zA6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="heart.fill" catalog="system" selectedImage="heart.fill" id="H0Y-Px-BQS"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="byA-Ly-jde" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="buW-LL-fx7">
+                                <rect key="frame" x="0.0" y="50" width="393" height="47.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="buW-LL-fx7" id="thg-6I-IYh">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="47.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="9jz-ie-HCD" id="uOs-oz-OAD"/>
+                            <outlet property="delegate" destination="9jz-ie-HCD" id="dde-o2-skf"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="heart.fill" catalog="system" id="9cM-4D-pAB"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n5b-7I-44Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1398" y="287"/>
+            <point key="canvasLocation" x="1376" y="296"/>
         </scene>
         <!--League Details Collection View Controller-->
         <scene sceneID="JiH-yS-Q9i">
@@ -382,9 +393,6 @@
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray2Color">
-            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

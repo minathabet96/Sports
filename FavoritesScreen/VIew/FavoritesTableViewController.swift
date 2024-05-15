@@ -1,39 +1,31 @@
 //
-//  LeaguesTableViewController.swift
+//  FavoritesTableViewController.swift
 //  Sports
 //
-//  Created by Mina on 12/05/2024.
+//  Created by Mina on 14/05/2024.
 //
 
 import UIKit
-import Kingfisher
-class LeaguesTableViewController: UITableViewController {
-    var viewModel: LeaguesViewModel!
+
+class FavoritesTableViewController: UITableViewController {
+    var viewModel: FavoritesViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.title = "Leagues"
+        viewModel = FavoritesViewModel()
+        self.tabBarController?.title = "Favorites"
         let nib = UINib(nibName: "LeaguesTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "LeaguesTableViewCell")
-        viewModel.leaguesViewBinder = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
-        viewModel.fetchData()
+        //tableView.reloadData()
+        
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.setLeagueId(id: viewModel.getLeagues()[indexPath.row].leagueID)
-        let leageDetails:LeagueDetailsCollectionViewController =
-        self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
-        leageDetails.leagueViewModle=viewModel
-        
-        self.navigationController?.pushViewController(leageDetails, animated: true)
+    override func viewWillAppear(_ animated: Bool) {
+        print("number of stored leagues: \(viewModel.getLeagues().count)")
     }
-
     override func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 1
     }
 
@@ -41,26 +33,31 @@ class LeaguesTableViewController: UITableViewController {
         
         return viewModel.getLeagues().count
     }
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguesTableViewCell", for: indexPath) as! LeaguesTableViewCell
-        if !viewModel.getLeagues().isEmpty {
-            switch viewModel.sportParam {
-            case "tennis":
-                cell.cellImage.kf.setImage(with: URL(string: "https://static.vecteezy.com/system/resources/previews/000/488/409/original/tennis-cup-winner-gold-stock-vector-illustration.jpg"))
-            case "basketball":
-                cell.cellImage.kf.setImage(with: URL(string: "https://www.fiba.basketball/api/img/graphic/5f1a2c53-ff81-4b23-9c4f-bd85d75c6d98/1000/1000?mt=.jpg"))
-            case "cricket":
-                cell.cellImage.kf.setImage(with: URL(string: "https://5.imimg.com/data5/SELLER/Default/2021/7/BM/TC/ED/5388092/4-500x500.JPG"))
-            default:
-                cell.cellImage.kf.setImage(with: URL(string: viewModel.getLeagues()[indexPath.row].leagueLogo ?? "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/5ZD3FGEX2JJU7FZSN2FDIIXFQ4.jpg"))
-            }
-            
-            cell.cellLabel.text = viewModel.getLeagues()[indexPath.row].leagueName
-        }
+        cell.cellImage.layer.cornerRadius = 24
+        cell.cellImage.image = UIImage(data: viewModel.getLeagues()[indexPath.row].img)
+        cell.cellLabel.text = viewModel.getLeagues()[indexPath.row].title
         
         return cell
     }
-        
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "Delete") { [weak self] _, _, _ in
+            let alert = UIAlertController(title: "Delete league", message: "Are you sure you want to delete this league?", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                self?.viewModel.removeLeague(index: indexPath.row)
+                tableView.reloadData()
+            }
+            let action2 = UIAlertAction(title: "cancel", style: .cancel)
+            alert.addAction(action2)
+            alert.addAction(action1)
+            self?.present(alert, animated: true)
+        }
+        action.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 
     /*
     // Override to support conditional editing of the table view.
