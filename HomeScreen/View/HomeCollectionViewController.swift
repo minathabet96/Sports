@@ -11,18 +11,20 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
     var viewModel: HomeViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.title = "Sports"
         viewModel = HomeViewModel()
         collectionView.delegate = self
         let nib = UINib(nibName: "HomeCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         
+        
     }
 
     
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        CGSize(width: collectionView.bounds.width/2 - 20, height: 200)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 2000, height: 2000)
+    }
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -55,6 +57,21 @@ class HomeCollectionViewController: UICollectionViewController, UICollectionView
             self.navigationController?.pushViewController(leaguesVC, animated: true)
         }
     }
+//    func drawFirstLayout() -> NSCollectionLayoutSection {
+//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        
+//        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.3))
+//        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
+//        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
+//        let section = NSCollectionLayoutSection(group: group)
+//        
+//        section.orthogonalScrollingBehavior = .continuous
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 100, leading: 16, bottom: 16, trailing: 0)
+//        section.visibleItemsInvalidationHandler = { (items, offset, environment) in
+//        }
+//        return section
+//    }
 
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking

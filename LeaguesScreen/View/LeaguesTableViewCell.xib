@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,24 +17,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="489" height="145"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ww9-4O-ETo">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ww9-4O-ETo">
                         <rect key="frame" x="9.9999999999999929" y="10" width="117.33333333333331" height="125"/>
-                        <color key="backgroundColor" red="1" green="0.81757344119999997" blue="0.58397485280000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0x-1o-DE8">
-                        <rect key="frame" x="137.33333333333334" y="60.666666666666657" width="341.66666666666663" height="24"/>
-                        <color key="backgroundColor" red="1" green="0.99196286889999996" blue="0.85657947950000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="22"/>
+                        <rect key="frame" x="137.33333333333334" y="60.333333333333336" width="341.66666666666663" height="24.666666666666664"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" name="TamilSangamMN" family="Tamil Sangam MN" pointSize="22"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="1" green="0.99196286889999996" blue="0.85657947950000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="H0x-1o-DE8" firstAttribute="centerY" secondItem="ww9-4O-ETo" secondAttribute="centerY" id="5dQ-gH-gft"/>
                     <constraint firstItem="ww9-4O-ETo" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.862069" id="9sv-d6-JQi"/>
                     <constraint firstItem="ww9-4O-ETo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Eze-31-4cw"/>
                     <constraint firstAttribute="bottom" secondItem="ww9-4O-ETo" secondAttribute="bottom" constant="10" id="T4X-wd-dB6"/>
+                    <constraint firstItem="ww9-4O-ETo" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Vf0-fp-4m0"/>
+                    <constraint firstItem="H0x-1o-DE8" firstAttribute="centerY" secondItem="ww9-4O-ETo" secondAttribute="centerY" id="YO0-gT-uR7"/>
                     <constraint firstItem="H0x-1o-DE8" firstAttribute="leading" secondItem="ww9-4O-ETo" secondAttribute="trailing" constant="10" id="ddm-JB-YyX"/>
                     <constraint firstAttribute="trailing" secondItem="H0x-1o-DE8" secondAttribute="trailing" constant="10" id="dov-vy-6Qb"/>
                     <constraint firstItem="ww9-4O-ETo" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.24" id="g2A-my-bc5"/>
