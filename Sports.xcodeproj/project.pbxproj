@@ -40,9 +40,10 @@
 		39BEB3F32BF13A7A0079327F /* LeaguesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEB3F22BF13A7A0079327F /* LeaguesTableViewController.swift */; };
 		39BEB3F62BF13A9C0079327F /* LeaguesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEB3F42BF13A9C0079327F /* LeaguesTableViewCell.swift */; };
 		39BEB3F72BF13A9C0079327F /* LeaguesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39BEB3F52BF13A9C0079327F /* LeaguesTableViewCell.xib */; };
-		39BEB3FA2BF146DB0079327F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 39BEB3F92BF146DB0079327F /* Kingfisher */; };
 		39C35F222BF4D84300654F5D /* MockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C35F212BF4D84300654F5D /* MockTest.swift */; };
 		39C35F242BF4D89500654F5D /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C35F232BF4D89500654F5D /* MockNetworkService.swift */; };
+		39DABA3A2BF62A0000E0C3B2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 39DABA392BF62A0000E0C3B2 /* Kingfisher */; settings = {ATTRIBUTES = (Weak, ); }; };
+		39DABA3D2BF62C7300E0C3B2 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 39DABA3C2BF62C7300E0C3B2 /* Reachability */; };
 		39DCB8152BF3FD4300BB208F /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DCB8142BF3FD4300BB208F /* FavoritesTableViewController.swift */; };
 		39DCB8172BF3FEEA00BB208F /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DCB8162BF3FEEA00BB208F /* FavoritesViewModel.swift */; };
 		39DCB8192BF3FF3900BB208F /* FavoriteLeague.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DCB8182BF3FF3900BB208F /* FavoriteLeague.swift */; };
@@ -117,7 +118,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39BEB3FA2BF146DB0079327F /* Kingfisher in Frameworks */,
+				39DABA3A2BF62A0000E0C3B2 /* Kingfisher in Frameworks */,
+				39DABA3D2BF62C7300E0C3B2 /* Reachability in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +414,8 @@
 			);
 			name = Sports;
 			packageProductDependencies = (
-				39BEB3F92BF146DB0079327F /* Kingfisher */,
+				39DABA392BF62A0000E0C3B2 /* Kingfisher */,
+				39DABA3C2BF62C7300E0C3B2 /* Reachability */,
 			);
 			productName = Sports;
 			productReference = 39003E4D2BF12D250062B1AE /* Sports.app */;
@@ -487,7 +490,8 @@
 			);
 			mainGroup = 39003E442BF12D250062B1AE;
 			packageReferences = (
-				39BEB3F82BF146DB0079327F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				39DABA382BF62A0000E0C3B2 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				39DABA3B2BF62C7300E0C3B2 /* XCRemoteSwiftPackageReference "Reachability" */,
 			);
 			productRefGroup = 39003E4E2BF12D250062B1AE /* Products */;
 			projectDirPath = "";
@@ -909,7 +913,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		39BEB3F82BF146DB0079327F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		39DABA382BF62A0000E0C3B2 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
@@ -917,13 +921,26 @@
 				minimumVersion = 7.11.0;
 			};
 		};
+		39DABA3B2BF62C7300E0C3B2 /* XCRemoteSwiftPackageReference "Reachability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		39BEB3F92BF146DB0079327F /* Kingfisher */ = {
+		39DABA392BF62A0000E0C3B2 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 39BEB3F82BF146DB0079327F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = 39DABA382BF62A0000E0C3B2 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		39DABA3C2BF62C7300E0C3B2 /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39DABA3B2BF62C7300E0C3B2 /* XCRemoteSwiftPackageReference "Reachability" */;
+			productName = Reachability;
 		};
 /* End XCSwiftPackageProductDependency section */
 
