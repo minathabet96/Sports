@@ -11,13 +11,20 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     var hideLoadingVar:Int=0
     var viewModel:LeagueDetailsViewModel!
     var loadingView: UIView?
-    /// TODO add fav model 
-    var leagueViewModle:LeaguesViewModel!
+  
+    var leagueViewModle:LeaguesViewModel?
+    var favLeaguesViewModel:FavoritesViewModel?
     let sectoinTitles:[String] = ["UpComing Events","Latest Results","Teams"]
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
-        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, league: leagueViewModle.getSelectedLeague()! , sportType: leagueViewModle.sportParam)
+        if leagueViewModle != nil{
+            viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, league: (leagueViewModle?.getSelectedLeague()!)! , sportType: leagueViewModle?.sportParam ?? "football")
+        }else{
+            let league = Result(leagueName: favLeaguesViewModel?.getSelectedLeague()?.title, countryName: favLeaguesViewModel?.getSelectedLeague()?.title, leagueLogo: favLeaguesViewModel?.getSelectedLeague()?.imgUrl, leagueID: favLeaguesViewModel?.getSelectedLeague()?.id ?? 0)
+            viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, league: league, sportType: favLeaguesViewModel?.getSelectedLeague()?.type ?? "football")
+        }
+        
         registeringViewModels()
         addAddIcon()
         showLoading()

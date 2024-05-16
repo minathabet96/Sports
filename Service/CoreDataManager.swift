@@ -28,12 +28,13 @@ class CoreDataManager {
                 guard let id = league.value(forKey: "id") as? Int,
                       let title = league.value(forKey: "title") as? String,
                       let type = league.value(forKey: "type") as? String,
+                      let imgUrl = league.value(forKey: "imgUrl") as? String,
                       let img = league.value(forKey: "image") as? Data
                 else {
                     return []
                 }
                 
-                let league = FavoriteLeague(id: id, title: title,type:type, img:img)
+                let league = FavoriteLeague(id: id, title: title,type:type,imgUrl: imgUrl, img:img)
                 leagues.append(league)
             }
         } catch {
@@ -62,6 +63,7 @@ class CoreDataManager {
         leagueManagedObject.setValue(league.id, forKey: "id")
         leagueManagedObject.setValue(league.title, forKey: "title")
         leagueManagedObject.setValue(league.type, forKey: "type")
+        leagueManagedObject.setValue(league.imgUrl, forKey: "imgUrl")
         leagueManagedObject.setValue(league.img, forKey: "image")
         
         do {

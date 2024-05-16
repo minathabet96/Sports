@@ -17,8 +17,9 @@ class FavoritesTableViewController: UITableViewController {
         print(viewModel.getLeagues().count)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        viewModel.setSelectedLeague(league: viewModel.getLeagues()[indexPath.row])
         let leageDetails:LeagueDetailsCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
+        leageDetails.favLeaguesViewModel=viewModel
         self.present(leageDetails, animated: true)
         
     }
@@ -27,6 +28,7 @@ class FavoritesTableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.title = "Favorites"
+        print(viewModel.getLeagues().count)
         tableView.reloadData()
     }
     override func numberOfSections(in tableView: UITableView) -> Int {

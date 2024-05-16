@@ -120,9 +120,11 @@ class LeagueDetailsViewModel{
     func setupFavLeagueModel(){
         network.fetchData(urlString:league.leagueLogo ?? getDefaultUrl()){[weak self] img in
             DispatchQueue.main.async {
-                self?.leageFavModel=FavoriteLeague(id:self?.league.leagueID ?? 0, title:self?.league.leagueName ?? "unkown",type: self?.sportType ?? "football", img: img)
+                self?.leageFavModel=FavoriteLeague(id:self?.league.leagueID ?? 0, title:self?.league.leagueName ?? "unkown",type: self?.sportType ?? "football",imgUrl: (self?.league.leagueLogo  ?? self?.getDefaultUrl()) ?? "", img: img)
+                
             }
         }
+        
     }
     func getLeagueFavModel()->FavoriteLeague{
         return leageFavModel!
