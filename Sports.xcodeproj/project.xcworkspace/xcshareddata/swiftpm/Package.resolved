@@ -1,7 +1,5 @@
 {
-  "originHash" : "917a2b512148612347b307b5f8d624e74df48af36fa322c80901a86fc0e1317f",
-
-main
+  "originHash" : "6bd827e51d1b60746de11ba6ecf5e4580b107d69e882f5659491a6dc61eb0f4a",
   "pins" : [
     {
       "identity" : "kingfisher",
