@@ -31,8 +31,7 @@ class LeaguesTableViewController: UITableViewController {
         let leageDetails:LeagueDetailsCollectionViewController =
         self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
         leageDetails.leagueViewModle=viewModel
-        
-        self.navigationController?.pushViewController(leageDetails, animated: true)
+        self.present(leageDetails, animated: true)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
