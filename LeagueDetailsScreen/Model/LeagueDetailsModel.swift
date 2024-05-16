@@ -8,17 +8,17 @@
 import Foundation
 
 struct LeagueDetailsModel : Codable{
-    var eventDate:String
-    var evnetTime:String
-    var homeTeamName:String
-    var homeTeamKey:Int
-    var homeTeamLogo:String
-    var awayTeamName:String
-    var awayTeamKey:Int
-    var awayTeamLogo:String
-    var leagueName:String
-    var leagueRound:String
-    var eventFinalResult:String
+    var eventDate:String?
+    var evnetTime:String?
+    var homeTeamName:String?
+    var homeTeamKey:Int?
+    var homeTeamLogo:String?
+    var awayTeamName:String?
+    var awayTeamKey:Int?
+    var awayTeamLogo:String?
+    var leagueName:String?
+    var leagueRound:String?
+    var eventFinalResult:String?
     enum CodingKeys: String,CodingKey {
         case eventDate = "event_date"
         case evnetTime = "event_time"
@@ -35,5 +35,5 @@ struct LeagueDetailsModel : Codable{
     
 }
 struct LeageDetailsApiResult:Codable{
-    var result:[LeagueDetailsModel]
+    var result:[LeagueDetailsModel]?
 }
