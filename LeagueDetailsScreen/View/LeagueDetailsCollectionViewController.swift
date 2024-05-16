@@ -160,7 +160,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
             viewModel.setSelectedTeamId(teamId:viewModel.getLeagueTeams()[indexPath.row].homeTeamKey ?? 0 )
             let teamDetails:TeamDetailsTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "teamDetailsTVC") as! TeamDetailsTableViewController
             teamDetails.leageDetailsViewModel = viewModel
-            self.navigationController?.pushViewController(teamDetails, animated: true)
+            self.present(teamDetails, animated: true)
         }
     }
     
