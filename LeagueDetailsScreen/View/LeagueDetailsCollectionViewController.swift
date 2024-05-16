@@ -7,17 +7,24 @@
 
 import UIKit
 
-
 class LeagueDetailsCollectionViewController: UICollectionViewController {
     var hideLoadingVar:Int=0
     var viewModel:LeagueDetailsViewModel!
     var loadingView: UIView?
+    /// TODO add fav model 
     var leagueViewModle:LeaguesViewModel!
     let sectoinTitles:[String] = ["UpComing Events","Latest Results","Teams"]
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
-        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle.getLeagueId() , sportType: leagueViewModle.sportParam)
+        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, league: leagueViewModle.getSelectedLeague()! , sportType: leagueViewModle.sportParam)
+        registeringViewModels()
+        addAddIcon()
+        showLoading()
+        viewModel.fetchData()
+    }
+    
+    private func registeringViewModels(){
         viewModel.upcomingEventsViewBinder = { [weak self] in
             DispatchQueue.main.async {
                 self?.hideLoadingVar += 1
@@ -26,7 +33,6 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
                 }
                 self?.collectionView.reloadData()
             }
-            
         }
         viewModel.latestResultsViewBinder={
             [weak self] in
@@ -38,8 +44,23 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
                     self?.collectionView.reloadData()
                 }
         }
-        showLoading()
-        viewModel.fetchData()
+    }
+    private func addAddIcon(){
+        var iconImage = UIImage(named: "fav_unselected")
+        if  CoreDataManager.shared.checkIfLeagueIsFav(leagueId: viewModel.getCurrentLeagueData().leagueID) {
+            iconImage = UIImage(named: "fav_selected")
+        }
+         let iconButton = UIBarButtonItem(image: iconImage, style: .plain, target: self, action: #selector(iconTapped))
+        navigationItem.rightBarButtonItem = iconButton
+    }
+    @objc func iconTapped() {
+        if CoreDataManager.shared.checkIfLeagueIsFav(leagueId: viewModel.getCurrentLeagueData().leagueID) {
+            CoreDataManager.shared.removeLeague(leagueId: viewModel.getCurrentLeagueData().leagueID)
+            addAddIcon()
+        }else{
+            CoreDataManager.shared.addLeague(league: viewModel.getLeagueFavModel())
+            addAddIcon()
+        }
     }
     private func createLayouts()->UICollectionViewCompositionalLayout{
        return  UICollectionViewCompositionalLayout{ [weak self] sectionIndex,environment in

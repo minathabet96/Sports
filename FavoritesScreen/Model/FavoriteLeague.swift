@@ -9,5 +9,6 @@ import Foundation
 struct FavoriteLeague {
     var id: Int
     var title: String
+    var type: String
     var img: Data
 }
