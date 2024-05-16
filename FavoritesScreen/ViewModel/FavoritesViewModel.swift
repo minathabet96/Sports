@@ -7,11 +7,20 @@
 
 import Foundation
 class FavoritesViewModel {
+   private var selectedLeague:FavoriteLeague?
+    
+    func setSelectedLeague(league:FavoriteLeague){
+        selectedLeague=league
+    }
+    
+    func getSelectedLeague()->FavoriteLeague?{
+       return selectedLeague
+    }
     func getLeagues() -> [FavoriteLeague] {
         return CoreDataManager.shared.getFavorites()
     }
     func removeLeague(index: Int) {
-        CoreDataManager.shared.removeLeague(index: index)
+        CoreDataManager.shared.removeLeague(leagueId: index)
     }
     func addLeague(league: FavoriteLeague) {
         CoreDataManager.shared.addLeague(league: league)

@@ -7,25 +7,67 @@
 
 import UIKit
 
-
 class LeagueDetailsCollectionViewController: UICollectionViewController {
-    
+    var hideLoadingVar:Int=0
     var viewModel:LeagueDetailsViewModel!
     var loadingView: UIView?
+  
     var leagueViewModle:LeaguesViewModel?
+    var favLeaguesViewModel:FavoritesViewModel?
     let sectoinTitles:[String] = ["UpComing Events","Latest Results","Teams"]
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout=createLayouts()
-        viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, leagueID: leagueViewModle?.getLeagueId() ?? 0, sportType: "football")
-        viewModel.leaguesViewBinder = { [weak self] in
+        if leagueViewModle != nil{
+            viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, league: (leagueViewModle?.getSelectedLeague()!)! , sportType: leagueViewModle?.sportParam ?? "football")
+        }else{
+            let league = Result(leagueName: favLeaguesViewModel?.getSelectedLeague()?.title, countryName: favLeaguesViewModel?.getSelectedLeague()?.title, leagueLogo: favLeaguesViewModel?.getSelectedLeague()?.imgUrl, leagueID: favLeaguesViewModel?.getSelectedLeague()?.id ?? 0)
+            viewModel=LeagueDetailsViewModel(network: DataFetcher.shared, league: league, sportType: favLeaguesViewModel?.getSelectedLeague()?.type ?? "football")
+        }
+        
+        registeringViewModels()
+        addAddIcon()
+        showLoading()
+        viewModel.fetchData()
+    }
+    
+    private func registeringViewModels(){
+        viewModel.upcomingEventsViewBinder = { [weak self] in
             DispatchQueue.main.async {
-                self?.hideLoading()
+                self?.hideLoadingVar += 1
+                if self?.hideLoadingVar == 2{
+                    self?.hideLoading()
+                }
                 self?.collectionView.reloadData()
             }
         }
-        showLoading()
-        viewModel.fetchData()
+        viewModel.latestResultsViewBinder={
+            [weak self] in
+                DispatchQueue.main.async {
+                    self?.hideLoadingVar += 1
+                    if self?.hideLoadingVar == 2{
+                        self?.hideLoading()
+                    }
+                    self?.collectionView.reloadData()
+                }
+        }
+    }
+    private func addAddIcon(){
+        var iconImage = UIImage(named: "fav_unselected")
+        if  CoreDataManager.shared.checkIfLeagueIsFav(leagueId: viewModel.getCurrentLeagueData().leagueID) {
+            iconImage = UIImage(named: "fav_selected")
+        }
+         let iconButton = UIBarButtonItem(image: iconImage, style: .plain, target: self, action: #selector(iconTapped))
+        navigationItem.rightBarButtonItem = iconButton
+    }
+    @objc func iconTapped() {
+        if CoreDataManager.shared.checkIfLeagueIsFav(leagueId: viewModel.getCurrentLeagueData().leagueID) {
+            CoreDataManager.shared.removeLeague(leagueId: viewModel.getCurrentLeagueData().leagueID)
+            addAddIcon()
+        }else{
+            CoreDataManager.shared.addLeague(league: viewModel.getLeagueFavModel())
+            addAddIcon()
+        }
     }
     private func createLayouts()->UICollectionViewCompositionalLayout{
        return  UICollectionViewCompositionalLayout{ [weak self] sectionIndex,environment in
@@ -44,6 +86,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
                
             }
     }
+
     private func supplementaryHeaderItem()->NSCollectionLayoutBoundarySupplementaryItem{
         .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         
@@ -75,7 +118,7 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.50), heightDimension: .absolute(150)), subitems: [item])
         group.contentInsets=NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
         let section=NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.orthogonalScrollingBehavior = .continuous
         section.contentInsets=NSDirectionalEdgeInsets.init(top: 0, leading: 14, bottom: 10, trailing: 14)
         section.boundarySupplementaryItems=[supplementaryHeaderItem()]
         return section
@@ -111,7 +154,17 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     */
 
     // MARK: UICollectionViewDataSource
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 2 {
+            print("indexPath.row \(indexPath.row)")
+            viewModel.setSelectedTeamId(teamId:viewModel.getLeagueTeams()[indexPath.row].homeTeamKey ?? 0 )
+            let teamDetails:TeamDetailsTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "teamDetailsTVC") as! TeamDetailsTableViewController
+            teamDetails.leageDetailsViewModel = viewModel
+            self.present(teamDetails, animated: true)
+        }
+    }
+    
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return sectoinTitles.count
@@ -122,33 +175,58 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         switch section{
         case 0:
-            return   viewModel.getLeagueUpcomingEvents().count
+            if viewModel.getLeagueUpcomingEvents().isEmpty{
+                return 1
+
+            }else{
+                return   viewModel.getLeagueUpcomingEvents().count
+            }
         case 1:
-            return   viewModel.getLeagueLatestResults().count
+            if viewModel.getLeagueLatestResults().isEmpty{
+                return 1
+            }else{
+                return   viewModel.getLeagueLatestResults().count
+            }
         case 2:
-            return   viewModel.getLeagueTeams().count
+            if viewModel.getLeagueTeams().isEmpty{
+                return 1
+            }
+            else{
+                return   viewModel.getLeagueTeams().count
+            }
         default:
             return    0
         }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventsCell", for: indexPath)
         switch indexPath.section{
         case 0:
+            if viewModel.getLeagueUpcomingEvents().isEmpty{
+                let upComingEventCellEmpty = collectionView.dequeueReusableCell(withReuseIdentifier: "cellImageHolder", for: indexPath)
+                return upComingEventCellEmpty
+            }
             let upComingEventCell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingEventsCell", for: indexPath) as! UpComingEventsCollectionViewCell
             upComingEventCell.setup(upcomingEvent: viewModel.getLeagueUpcomingEvents()[indexPath.row])
             return upComingEventCell
         case 1:
+            if viewModel.getLeagueLatestResults().isEmpty{
+                let upComingEventCellEmpty = collectionView.dequeueReusableCell(withReuseIdentifier: "cellImageHolder", for: indexPath)
+                return upComingEventCellEmpty
+            }
             let latestResult = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventsCell", for: indexPath) as! LatestEventsCollectionViewCell
             latestResult.setup(latestResult: viewModel.getLeagueLatestResults()[indexPath.row])
             return latestResult
         case 2:
+            if viewModel.getLeagueTeams().isEmpty{
+                let upComingEventCellEmpty = collectionView.dequeueReusableCell(withReuseIdentifier: "cellImageHolder", for: indexPath)
+                return upComingEventCellEmpty
+            }
             let teamsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! TeamsCollectionViewCell
             teamsCell.setup(team: viewModel.getLeagueTeams()[indexPath.row])
             return teamsCell
         default:
-            return cell
+            return UICollectionViewCell.init()
         }
     }
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

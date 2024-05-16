@@ -13,8 +13,8 @@ class TeamsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var teamName: UILabel!
     
     func setup(team: LeagueDetailsModel) {
-            teamName.text = team.awayTeamName
-            if let logoURL = URL(string: team.awayTeamLogo) {
+            teamName.text = team.homeTeamName
+            if let logoURL = URL(string: team.homeTeamLogo ?? "") {
                 teamLogo.kf.setImage(with: logoURL)
             }
             teamLogo.layer.cornerRadius = teamLogo.frame.size.width / 2
