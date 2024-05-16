@@ -14,12 +14,22 @@ class FavoritesTableViewController: UITableViewController {
         viewModel = FavoritesViewModel()
         let nib = UINib(nibName: "LeaguesTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "LeaguesTableViewCell")
+        print(viewModel.getLeagues().count)
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.setSelectedLeague(league: viewModel.getLeagues()[indexPath.row])
+        let leageDetails:LeagueDetailsCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
+        leageDetails.favLeaguesViewModel=viewModel
+        self.present(leageDetails, animated: true)
+        
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.title = "Favorites"
+        print(viewModel.getLeagues().count)
+        tableView.reloadData()
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -44,7 +54,7 @@ class FavoritesTableViewController: UITableViewController {
         let action = UIContextualAction(style: .normal, title: "Delete") { [weak self] _, _, _ in
             let alert = UIAlertController(title: "Delete league", message: "Are you sure you want to delete this league?", preferredStyle: .alert)
             let action1 = UIAlertAction(title: "Delete", style: .destructive) { _ in
-                self?.viewModel.removeLeague(index: indexPath.row)
+                self?.viewModel.removeLeague(index: self?.viewModel.getLeagues()[indexPath.row].id ?? 0)
                 tableView.reloadData()
             }
             let action2 = UIAlertAction(title: "cancel", style: .cancel)

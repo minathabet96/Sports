@@ -11,10 +11,9 @@ class TeamDetailsTableViewController: UITableViewController {
     var viewModel:TeamDetailsViewModel!
     var leageDetailsViewModel:LeagueDetailsViewModel!
     var loadingView: UIView?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         viewModel = TeamDetailsViewModel(network: DataFetcher.shared,  teamId: leageDetailsViewModel.getSelectedTeamId() ?? 0, sportType: leageDetailsViewModel.getSportType())
         viewModel.teamDetailsViewBinder = {
             [weak self] in

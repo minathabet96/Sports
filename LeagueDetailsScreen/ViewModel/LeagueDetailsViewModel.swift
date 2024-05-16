@@ -8,18 +8,21 @@
 import Foundation
 class LeagueDetailsViewModel{
    private let network: Fetchable
-    private  var leagueUpComingEvents: [LeagueDetailsModel] = []
+    private var leagueUpComingEvents: [LeagueDetailsModel] = []
     private  var leagueLatestResults: [LeagueDetailsModel] = []
-    private   var leagueTeams: [LeagueDetailsModel] = []
-    private   let leagueID: Int
-    private   let sportType: String
-    private   var selectedTeamId:Int?
+    private  var leagueTeams: [LeagueDetailsModel] = []
+    private  let league: Result
+    private  let sportType: String
+    private  var selectedTeamId:Int?
     var upcomingEventsViewBinder: () -> () = {}
     var latestResultsViewBinder: () -> () = {}
-    init(network: Fetchable, leagueID: Int, sportType: String) {
+    var leagueImageLoaded: () -> () = {}
+    var leageFavModel:FavoriteLeague?
+    init(network: Fetchable, league: Result, sportType: String) {
            self.network = network
-           self.leagueID = leagueID
+           self.league = league
            self.sportType = sportType
+        self.setupFavLeagueModel()
        }
     private func upcomingEvnetsURl()->String{
         let currentDate = Date()
@@ -33,7 +36,7 @@ class LeagueDetailsViewModel{
         let toDate = dateFormatter.string(from: nextYearDate)
         print(fromDate)
         print(toDate)
-        let urlString = "\(APIHelper.baseUrl)\(sportType)/?met=Fixtures&leagueId=\(leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=\(APIHelper.apiKey)"
+        let urlString = "\(APIHelper.baseUrl)\(sportType)/?met=Fixtures&leagueId=\(league.leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=\(APIHelper.apiKey)"
            return urlString
     }
     
@@ -56,7 +59,7 @@ class LeagueDetailsViewModel{
         print(fromDate)
         print(toDate)
         
-        let urlString = "https://apiv2.allsportsapi.com/\(sportType)/?met=Fixtures&leagueId=\(leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=00df14beddee4ef5d0efee2255fde53ef246055b52806f3c699c4d5af73704e6"
+        let urlString = "https://apiv2.allsportsapi.com/\(sportType)/?met=Fixtures&leagueId=\(league.leagueID)&from=\(fromDate)&to=\(toDate)&APIkey=00df14beddee4ef5d0efee2255fde53ef246055b52806f3c699c4d5af73704e6"
         
         return urlString
     }
@@ -65,7 +68,7 @@ class LeagueDetailsViewModel{
     func fetchData() {
         
         print("leagueID")
-        print(leagueID)
+        print(league.leagueID)
         print(upcomingEvnetsURl())
         print(latestResultsURL())
         network.fetchData(urlString:  upcomingEvnetsURl()) {
@@ -111,5 +114,34 @@ class LeagueDetailsViewModel{
     func getSportType()->String{
         return sportType
     }
-   
+    func getCurrentLeagueData()->Result{
+        return league
+    }
+    func setupFavLeagueModel(){
+        network.fetchData(urlString:league.leagueLogo ?? getDefaultUrl()){[weak self] img in
+            DispatchQueue.main.async {
+                self?.leageFavModel=FavoriteLeague(id:self?.league.leagueID ?? 0, title:self?.league.leagueName ?? "unkown",type: self?.sportType ?? "football",imgUrl: (self?.league.leagueLogo  ?? self?.getDefaultUrl()) ?? "", img: img)
+                
+            }
+        }
+        
+    }
+    func getLeagueFavModel()->FavoriteLeague{
+        return leageFavModel!
+    }
+    
+    func getDefaultUrl()->String{
+        var url: String
+        switch sportType {
+            case "tennis":
+                url = "https://static.vecteezy.com/system/resources/previews/000/488/409/original/tennis-cup-winner-gold-stock-vector-illustration.jpg"
+            case "basketball":
+                url = "https://www.fiba.basketball/api/img/graphic/5f1a2c53-ff81-4b23-9c4f-bd85d75c6d98/1000/1000?mt=.jpg"
+            case "cricket":
+                url = "https://5.imimg.com/data5/SELLER/Default/2021/7/BM/TC/ED/5388092/4-500x500.JPG"
+            default:
+                url = "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/5ZD3FGEX2JJU7FZSN2FDIIXFQ4.jpg"
+        }
+        return url
+    }
 }

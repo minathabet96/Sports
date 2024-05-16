@@ -27,7 +27,7 @@ class LeaguesTableViewController: UITableViewController {
         80
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.setLeagueId(id: viewModel.getLeagues()[indexPath.row].leagueID)
+        viewModel.setSelectedLeague(selectedLeague:viewModel.getLeagues()[indexPath.row])
         let leageDetails:LeagueDetailsCollectionViewController =
         self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
         leageDetails.leagueViewModle=viewModel
