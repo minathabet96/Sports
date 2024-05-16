@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Reachability
 class LeagueDetailsCollectionViewController: UICollectionViewController {
     var hideLoadingVar:Int=0
     var viewModel:LeagueDetailsViewModel!
@@ -156,11 +156,16 @@ class LeagueDetailsCollectionViewController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 2 {
-            print("indexPath.row \(indexPath.row)")
-            viewModel.setSelectedTeamId(teamId:viewModel.getLeagueTeams()[indexPath.row].homeTeamKey ?? 0 )
-            let teamDetails:TeamDetailsTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "teamDetailsTVC") as! TeamDetailsTableViewController
-            teamDetails.leageDetailsViewModel = viewModel
-            self.present(teamDetails, animated: true)
+            let reachability = try! Reachability()
+            if reachability.connection == .unavailable {
+                handleReachability(viewController: self)
+            } else {
+                print("indexPath.row \(indexPath.row)")
+                viewModel.setSelectedTeamId(teamId:viewModel.getLeagueTeams()[indexPath.row].homeTeamKey ?? 0 )
+                let teamDetails:TeamDetailsTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "teamDetailsTVC") as! TeamDetailsTableViewController
+                teamDetails.leageDetailsViewModel = viewModel
+                self.present(teamDetails, animated: true)
+            }
         }
     }
     
