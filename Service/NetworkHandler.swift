@@ -23,7 +23,7 @@ class DataFetcher: Fetchable {
         let url = URL(string: urlString)!
         let task = session.dataTask(with: url) { data,resp,_ in
             let httpResponse = resp as? HTTPURLResponse
-            print("response code: \(String(httpResponse!.statusCode))")
+            print("response code: \(String(httpResponse?.statusCode ?? 0))")
             if let data = data {
                 onComplete(data)
             }
