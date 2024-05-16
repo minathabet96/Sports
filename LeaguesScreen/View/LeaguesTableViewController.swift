@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import Reachability
 class LeaguesTableViewController: UITableViewController {
     var viewModel: LeaguesViewModel!
     var loadingView: UIView?
@@ -28,11 +29,17 @@ class LeaguesTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.setSelectedLeague(selectedLeague:viewModel.getLeagues()[indexPath.row])
-        let leageDetails:LeagueDetailsCollectionViewController =
-        self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
-        leageDetails.leagueViewModle=viewModel
-        
-        self.navigationController?.pushViewController(leageDetails, animated: true)
+        let reachability = try! Reachability()
+        if reachability.connection == .unavailable {
+            handleReachability(viewController: self)
+            }
+        else {
+            let leageDetails:LeagueDetailsCollectionViewController =
+            self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
+            leageDetails.leagueViewModle=viewModel
+            
+            self.present(leageDetails, animated: true)
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -166,4 +173,11 @@ class LeaguesTableViewController: UITableViewController {
     }
     */
 
+}
+func handleReachability(viewController: UIViewController) {
+    let alert = UIAlertController(title: nil, message: "There's no internet connection", preferredStyle: .actionSheet)
+    viewController.present(alert, animated: true)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        alert.dismiss(animated: true)
+    }
 }

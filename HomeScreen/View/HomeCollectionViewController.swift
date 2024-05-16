@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Reachability
 class HomeCollectionViewController: UICollectionViewController{
     var viewModel: HomeViewModel!
     override func viewDidLoad() {
@@ -55,16 +55,21 @@ class HomeCollectionViewController: UICollectionViewController{
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let leaguesVC = self.storyboard?.instantiateViewController(identifier: "leagues") as! LeaguesTableViewController
-        let title = viewModel.getSports()[indexPath.row].title
-        if title == "Hockey" || title == "Volleyball" || title == "Baseball" {
-            let alert = UIAlertController(title: "Coming soon", message: "this sport is currently unavailable", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default))
-            present(alert, animated: true)
-        }
-        else {
-            leaguesVC.viewModel = LeaguesViewModel(network: DataFetcher.shared, sportParam: viewModel.getSports()[indexPath.row].title.lowercased())
-            self.navigationController?.pushViewController(leaguesVC, animated: true)
+        let reachability = try! Reachability()
+        if reachability.connection == .unavailable {
+            handleReachability(viewController: self)
+        } else {
+            let leaguesVC = self.storyboard?.instantiateViewController(identifier: "leagues") as! LeaguesTableViewController
+            let title = viewModel.getSports()[indexPath.row].title
+            if title == "Hockey" || title == "Volleyball" || title == "Baseball" {
+                let alert = UIAlertController(title: "Coming soon", message: "this sport is currently unavailable", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                present(alert, animated: true)
+            }
+            else {
+                leaguesVC.viewModel = LeaguesViewModel(network: DataFetcher.shared, sportParam: viewModel.getSports()[indexPath.row].title.lowercased())
+                self.navigationController?.pushViewController(leaguesVC, animated: true)
+            }
         }
     }
         func setup() {

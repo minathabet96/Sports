@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Reachability
 class FavoritesTableViewController: UITableViewController {
     var viewModel: FavoritesViewModel!
     override func viewDidLoad() {
@@ -17,10 +17,15 @@ class FavoritesTableViewController: UITableViewController {
         print(viewModel.getLeagues().count)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.setSelectedLeague(league: viewModel.getLeagues()[indexPath.row])
-        let leageDetails:LeagueDetailsCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
-        leageDetails.favLeaguesViewModel=viewModel
-        self.present(leageDetails, animated: true)
+        let reachability = try! Reachability()
+        if reachability.connection == .unavailable {
+            handleReachability(viewController: self)
+        } else {
+            viewModel.setSelectedLeague(league: viewModel.getLeagues()[indexPath.row])
+            let leageDetails:LeagueDetailsCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
+            leageDetails.favLeaguesViewModel=viewModel
+            self.present(leageDetails, animated: true)
+        }
         
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
