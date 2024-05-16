@@ -38,7 +38,7 @@ class LeaguesTableViewController: UITableViewController {
             self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails") as! LeagueDetailsCollectionViewController
             leageDetails.leagueViewModle=viewModel
             
-            self.present(leageDetails, animated: true)
+            self.navigationController?.pushViewController(leageDetails, animated: true)
         }
     }
 
