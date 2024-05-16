@@ -14,9 +14,9 @@ class HomeViewModel {
         Sport(title: "Basketball", image: "basketball"),
         Sport(title: "Tennis", image: "tennis"),
         Sport(title: "Cricket", image: "cricket"),
-        Sport(title: "Hockey", image: "hockey")
-        /*Sport(title: "Baseball", image: "baseball"),
-        Sport(title: "American Football", image: "americanfootball")*/]
+        Sport(title: "Hockey", image: "hockey"),
+        Sport(title: "Baseball", image: "baseball"),
+        Sport(title: "Volleyball", image: "volleyball")]
         return sports
     }
 }
